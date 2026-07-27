@@ -12,5 +12,23 @@
 </head>
 <body>
     <script type="module" src="main.js"></script>
+    <script type='importmap'>
+        {
+            "imports": {
+                "three":
+                 "https://unpkg.com/three@0.150.1/build/three.module.js"
+                "three/addons/":
+                 "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+    // import latest
+    import Jolt from 'https://www.unpkg.com/jolt-physics/dist/jolt-physics.wasm-compat.js';
+
+    // or import a specific version
+    import Jolt from 'https://www.unpkg.com/jolt-physics@x.y.z/dist/jolt-physics.wasm-compat.js';
+    </script>
 </body>
 </html>
