@@ -1,34 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8">
     <title>Pet Project</title>
     <style>
-        body {
-            margin: 0;
-        }
+      body { margin: 0; }
     </style>
-</head>
-<body>
-    <script type="module" src="main.js"></script>
-    <script type='importmap'>
-        {
-            "imports": {
-                "three":
-                 "https://unpkg.com/three@0.150.1/build/three.module.js"
-                "three/addons/":
-                 "https://cdn.jsdelivr.net/npm/three@0.150.1/examples/jsm/"
-            }
-        }
-    </script>
-
-    <script type="module">
-    // import latest
-    import Jolt from 'https://www.unpkg.com/jolt-physics/dist/jolt-physics.wasm-compat.js';
-
-    // or import a specific version
-    import Jolt from 'https://www.unpkg.com/jolt-physics@x.y.z/dist/jolt-physics.wasm-compat.js';
-    </script>
-</body>
+  </head>
+  <body>
+   <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three/examples/jsm/"
+    }
+  }
+</script>
+    <script type="module" src="/main.js"></script>
+        <div id="info">Description of the scene</div>
+  </body>
 </html>
