@@ -1,47 +1,40 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
+// Создаём геометрию плоскости
+const geometry = new THREE.PlaneGeometry(50, 50); // ширина, высота
+
+// Создаём материал
+const material = new THREE.MeshStandardMaterial({ 
+  color: 0x3a5f3a,
+  side: THREE.DoubleSide 
+});
+
+// Создаём меш (объединяем геометрию и материал)
+const plane = new THREE.Mesh(geometry, material);
+
+// По умолчанию плоскость стоит вертикально, поворачиваем её горизонтально
+plane.rotation.x = -Math.PI / 2;
+
+// Добавляем на сцену
 const scene = new THREE.Scene();
+scene.add(plane);
+
+const light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(5, 10, 5);
+scene.add(light);
+
+const ambient = new THREE.AmbientLight(0x404040);
+scene.add(ambient);
+
+const renderer = new THREE.WebGLRenderer();
 const camera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
   1000,
 );
-camera.position.z = 2; // adjust based on your model's scale
-
-const renderer = new THREE.WebGLRenderer();
+camera.position.z = -2; // adjust based on your model's scale
+camera.position.y = 2; // adjust based on your model's scale
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setAnimationLoop(animate);
 document.body.appendChild(renderer.domElement);
-
-const ambient = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambient);
-
-const directional = new THREE.DirectionalLight(0xffffff, 1);
-directional.position.set(5, 10, 7.5);
-scene.add(directional);
-
-const loader = new GLTFLoader();
-let model;
-
-loader.load(
-  "public/santa_cruz_v10_DH.glb",
-  function (gltf) {
-    model = gltf.scene;
-    scene.add(model);
-  },
-  undefined,
-  function (error) {
-    console.error(error);
-  },
-);
-
-function animate(time) {
-  if (model) {
-    model.rotation.y = time / 1000;
-  }
-  renderer.render(scene, camera);
-}
-
-renderer.setAnimationLoop(animate);
+renderer.render(scene, camera);
