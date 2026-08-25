@@ -44,3 +44,75 @@ const cube = new THREE.Mesh(geometrys, materials);
 scene.add(cube);
 
 renderer.render(scene, camera);
+
+// Объект для отслеживания нажатых клавиш
+const keys = {
+  forward: false,
+  backward: false,
+  left: false,
+  right: false
+};
+
+// Слушатели событий клавиатуры
+window.addEventListener('keydown', (event) => {
+  switch (event.code) {
+    case 'KeyW':
+    case 'ArrowUp':
+      keys.forward = true;
+      break;
+    case 'KeyS':
+    case 'ArrowDown':
+      keys.backward = true;
+      break;
+    case 'KeyA':
+    case 'ArrowLeft':
+      keys.left = true;
+      break;
+    case 'KeyD':
+    case 'ArrowRight':
+      keys.right = true;
+      break;
+  }
+});
+
+window.addEventListener('keyup', (event) => {
+  switch (event.code) {
+    case 'KeyW':
+    case 'ArrowUp':
+      keys.forward = false;
+      break;
+    case 'KeyS':
+    case 'ArrowDown':
+      keys.backward = false;
+      break;
+    case 'KeyA':
+    case 'ArrowLeft':
+      keys.left = false;
+      break;
+    case 'KeyD':
+    case 'ArrowRight':
+      keys.right = false;
+      break;
+  }
+});
+
+// Скорость движения
+const speed = 0.05;
+
+// Функция обновления позиции куба (вызывать в animate)
+function updateMovement() {
+  if (keys.forward) cube.position.z -= speed;
+  if (keys.backward) cube.position.z += speed;
+  if (keys.left) cube.position.x -= speed;
+  if (keys.right) cube.position.x += speed;
+}
+
+// В цикле анимации
+function animate() {
+  requestAnimationFrame(animate);
+
+  updateMovement();
+
+  renderer.render(scene, camera);
+}
+animate();
