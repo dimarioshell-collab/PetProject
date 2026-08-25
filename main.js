@@ -50,68 +50,79 @@ const keys = {
   forward: false,
   backward: false,
   left: false,
-  right: false
+  right: false,
 };
 
 // Слушатели событий клавиатуры
-window.addEventListener('keydown', (event) => {
+window.addEventListener("keydown", (event) => {
   switch (event.code) {
-    case 'KeyW':
-    case 'ArrowUp':
+    case "KeyW":
+    case "ArrowUp":
       keys.forward = true;
       break;
-    case 'KeyS':
-    case 'ArrowDown':
+    case "KeyS":
+    case "ArrowDown":
       keys.backward = true;
       break;
-    case 'KeyA':
-    case 'ArrowLeft':
+    case "KeyA":
+    case "ArrowLeft":
       keys.left = true;
       break;
-    case 'KeyD':
-    case 'ArrowRight':
+    case "KeyD":
+    case "ArrowRight":
       keys.right = true;
       break;
   }
 });
 
-window.addEventListener('keyup', (event) => {
+window.addEventListener("keyup", (event) => {
   switch (event.code) {
-    case 'KeyW':
-    case 'ArrowUp':
+    case "KeyW":
+    case "ArrowUp":
       keys.forward = false;
       break;
-    case 'KeyS':
-    case 'ArrowDown':
+    case "KeyS":
+    case "ArrowDown":
       keys.backward = false;
       break;
-    case 'KeyA':
-    case 'ArrowLeft':
+    case "KeyA":
+    case "ArrowLeft":
       keys.left = false;
       break;
-    case 'KeyD':
-    case 'ArrowRight':
+    case "KeyD":
+    case "ArrowRight":
       keys.right = false;
       break;
   }
 });
 
 // Скорость движения
-const speed = 0.05;
+const speed = 3;
 
 // Функция обновления позиции куба (вызывать в animate)
-function updateMovement() {
-  if (keys.forward) cube.position.z -= speed;
-  if (keys.backward) cube.position.z += speed;
-  if (keys.left) cube.position.x -= speed;
-  if (keys.right) cube.position.x += speed;
+function updateMovement(delta = 0) {
+  const moveVector = new THREE.Vector3(0, 0, 0);
+
+  if (keys.forward) moveVector.z -= 1;
+  if (keys.backward) moveVector.z += 1;
+  if (keys.left) moveVector.x -= 1;
+  if (keys.right) moveVector.x += 1;
+  if (moveVector.length() > 0) {
+    moveVector.normalize().multiplyScalar((speed * delta) / 100000);
+    cube.position.add(moveVector);
+    // Поворачиваем куб в направлении движения
+    const angle = Math.atan2(moveVector.x, moveVector.z);
+    cube.rotation.y = angle;
+  }
 }
 
+const clock = new THREE.Timer();
+
 // В цикле анимации
-function animate() {
+function animate(timestamp) {
   requestAnimationFrame(animate);
 
-  updateMovement();
+  updateMovement(timestamp);
 
   renderer.render(scene, camera);
 }
